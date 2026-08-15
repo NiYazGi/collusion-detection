@@ -29,10 +29,10 @@ import urllib.request
 import urllib.error
 from datetime import datetime, timezone
 
-APIKEY = os.environ.get("TK_APIKEY", "")
-LAT = os.environ.get("TK_LAT", "52.5200")     # по умолчанию Берлин
-LNG = os.environ.get("TK_LNG", "13.4050")
-RAD = os.environ.get("TK_RAD", "3")
+APIKEY = os.environ.get("TK_APIKEY", "").strip()
+LAT = os.environ.get("TK_LAT", "52.5200").strip()
+LNG = os.environ.get("TK_LNG", "13.4050").strip()
+RAD = os.environ.get("TK_RAD", "3").strip()
 
 BASE = "https://creativecommons.tankerkoenig.de/json/list.php"
 INTERVAL = 300          # секунд между опросами
