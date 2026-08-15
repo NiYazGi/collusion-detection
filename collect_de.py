@@ -29,11 +29,18 @@ import urllib.request
 import urllib.error
 from datetime import datetime, timezone
 
-APIKEY = os.environ.get("TK_APIKEY", "").strip()
-LAT = os.environ.get("TK_LAT", "52.5200").strip()
-LNG = os.environ.get("TK_LNG", "13.4050").strip()
-RAD = os.environ.get("TK_RAD", "3").strip()
+import re
 
+def _clean(name, default=""):
+    v = os.environ.get(name, default) or default
+    return re.sub(r"\s+", "", v)
+
+APIKEY = _clean("TK_APIKEY")
+LAT = _clean("TK_LAT", "52.5200")
+LNG = _clean("TK_LNG", "13.4050")
+RAD = _clean("TK_RAD", "3")
+
+print(f"[проверка] LAT={LAT!r} LNG={LNG!r} RAD={RAD!r}")
 BASE = "https://creativecommons.tankerkoenig.de/json/list.php"
 INTERVAL = 300          # секунд между опросами
 DURATION = 55 * 60      # сколько работает один запуск
