@@ -43,7 +43,7 @@ RAD = _clean("TK_RAD", "3")
 print(f"[проверка] LAT={LAT!r} LNG={LNG!r} RAD={RAD!r}")
 BASE = "https://creativecommons.tankerkoenig.de/json/list.php"
 INTERVAL = 300          # секунд между опросами
-DURATION = 55 * 60      # сколько работает один запуск
+DURATION = 5 * 60 * 60      # пять часов 
 
 RAW_DIR = "data/de_raw"
 CSV_PATH = "data/de_prices.csv"
