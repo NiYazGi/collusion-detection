@@ -45,8 +45,11 @@ BASE = "https://creativecommons.tankerkoenig.de/json/list.php"
 INTERVAL = 90          # секунд между опросами
 DURATION = 5 * 60 * 60      # пять часов 
 
+import uuid
+RUN_ID = os.environ.get("GITHUB_RUN_ID", uuid.uuid4().hex[:8])
+DAY = datetime.now(timezone.utc).strftime("%Y%m%d")
 RAW_DIR = "data/de_raw"
-CSV_PATH = "data/de_prices.csv"
+CSV_PATH = f"data/parts/de_{DAY}_{RUN_ID}.csv"
 FIELDS = ["ts", "id", "brand", "name", "place", "lat", "lng",
           "dist", "e5", "e10", "diesel", "isOpen"]
 
@@ -85,7 +88,7 @@ def parse(text, ts):
 
 
 def append(rows):
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("data/parts", exist_ok=True)
     new = not os.path.exists(CSV_PATH)
     with open(CSV_PATH, "a", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=FIELDS, extrasaction="ignore")
@@ -103,7 +106,7 @@ def main():
     start = time.time()
     n_ok = n_fail = 0
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    raw_path = f"{RAW_DIR}/{day}.jsonl"
+    raw_path = f"{RAW_DIR}/{day}_{RUN_ID}.jsonl"
 
     print(f"Точка: {LAT}, {LNG}, радиус {RAD} км")
     print(f"Опрос раз в {INTERVAL} с в течение {DURATION // 60} мин\n")
